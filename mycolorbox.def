@@ -1,0 +1,75 @@
+\mdfdefinestyle{mystylen}{%
+linecolor=mybrown,outerlinewidth=1pt,%
+frametitlerule=true,frametitlefont=\sffamily\bfseries\color{white},%
+frametitlerulewidth=1pt,frametitlerulecolor=mybrown,%
+frametitlebackgroundcolor=mybrown,
+backgroundcolor=mybrown!05,
+repeatframetitle=true,
+everyline=true,
+splittopskip=0.2cm,
+splitbottomskip=1cm, 
+innertopmargin=\topskip,
+roundcorner=5pt
+}
+\makeatletter
+\newmdenv[style=mystylen]{exa}
+\newenvironment{example}[1]
+  {\begin{exa}[frametitle=#1]}
+  {\end{exa}}
+  %\let\@@par=\par
+\newenvironment{teo}[1]
+  {  \def\par{
+    \if@tempswa
+      \leavevmode \null \@@par\penalty\interlinepenalty
+    \else
+      \@tempswatrue
+      \ifhmode\@@par\penalty\interlinepenalty\fi
+          \fi
+          \Sepline}%
+  \begin{exa}[frametitle=#1]}
+    {\end{exa}}
+%\makeatother
+\gdef\Sepline{%
+  \par\noindent\makebox[\linewidth][l]{%
+  \hspace*{-\mdflength{innerleftmargin}}%
+   \tikz\draw[thick,dashed,gray!60] (0,0) --%
+        (\textwidth+\the\mdflength{innerleftmargin}+\the\mdflength{innerrightmargin},0);
+  }\par\nobreak}
+  \newlength{\iconwidth}
+\setlength{\iconwidth}{1cm}
+%\makeatletter
+\def\boxedminipage{\@ifnextchar [{\@iboxedminipage}{\@iboxedminipage[c]}}
+
+\def\@iboxedminipage[#1]#2{\leavevmode \@pboxswfalse
+  \if #1b\vbox
+    \else \if #1t\vtop
+	     \else \ifmmode \vcenter
+		       \else \@pboxswtrue $\vcenter
+		    \fi
+	  \fi
+  \fi\bgroup % start of outermost vbox/vtop/vcenter
+    \hsize #2
+    \hrule\@height\fboxrule
+    \hbox\bgroup % inner hbox
+      \vrule\@width\fboxrule \hskip\fboxsep \vbox\bgroup % innermost vbox
+	\vskip\fboxsep
+	\advance\hsize -2\fboxrule \advance\hsize-2\fboxsep
+	\textwidth\hsize \columnwidth\hsize
+	\@parboxrestore
+	\def\@mpfn{mpfootnote}\def\thempfn{\thempfootnote}\c@mpfootnote\z@
+	\let\@footnotetext\@mpfootnotetext
+	\let\@listdepth\@mplistdepth \@mplistdepth\z@
+	\@minipagerestore\@minipagetrue
+	\everypar{\global\@minipagefalse\everypar{}}}
+
+\def\endboxedminipage{%
+	\par\vskip-\lastskip
+	\ifvoid\@mpfootins\else
+	  \vskip\skip\@mpfootins\footnoterule\unvbox\@mpfootins\fi
+	\vskip\fboxsep
+      \egroup % ends the innermost \vbox
+      \hskip\fboxsep \vrule\@width\fboxrule
+    \egroup % ends the \hbox
+    \hrule\@height\fboxrule
+  \egroup% ends the vbox/vtop/vcenter
+  \if@pboxsw $\fi}

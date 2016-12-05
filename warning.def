@@ -1,0 +1,52 @@
+\tikzset{
+  warningsymbol/.style={
+      rectangle,
+      draw=\iconline,
+      fill=white,
+      scale=1,
+      overlay}
+}
+
+\mdfdefinestyle{warning}{%
+ hidealllines=true,leftline=true,
+ skipabove=12,skipbelow=12pt,
+ innertopmargin=0.4em,%
+ innerbottommargin=0.4em,%
+ innerrightmargin=0.7em,%
+ rightmargin=0.7em,%
+ innerleftmargin=1cm,%
+ leftmargin=1cm,%
+ middlelinewidth=.2em,%
+ linecolor=\boxcol,%
+ fontcolor=\texttcolor,%
+ firstextra={\path let \p1=(P), \p2=(O) in ($(\x2,0)+0.5*(0,\y1)$) 
+                           node[warningsymbol] {\includegraphics[width=\iconwidth]{\tipplogo}};},%
+% secondextra={%\path let \p1=(P), \p2=(O) in ($(\x2,0)+0.5*(0,\y1)$) 
+%                           node[warningsymbol] {\danger};
+%                           },%
+% middleextra={%\path let \p1=(P), \p2=(O) in ($(\x2,0)+0.5*(0,\y1)$) 
+%                           node[warningsymbol] {\danger};
+%                           },%
+ singleextra={\path let \p1=(P), \p2=(O) in ($(\x2,0)+0.5*(0,\y1)$) 
+                           node[warningsymbol] {\includegraphics[width=\iconwidth]{\tipplogo}};
+                           },%
+}
+\newenvironment{Warning}[2]{
+\setkeys{boxedicon}{#1}
+\begin{mdframed}[style=warning]
+\colorbox{\iconline!10}{\bf\hbox{\titlebox :} \hspace{20pt}\hbox{\labeltext}}\par\par
+\noindent #2
+}{\end{mdframed}}
+\newcommand\thmetiqwarning[1][]{#1}
+ \newcommand{\warningtheorem}[3][]{%
+          \newcounter{#2}[section]
+                    \def\nombre@warning{#3}
+                                 \newenvironment{#2}[2][]{%
+                   \refstepcounter{#2}
+                    \def\titulo@warning{\nombre@warning\ \thesection .\csname the#2\endcsname}
+                          \begin{Warning}{#1, titlebox=\titulo@warning ,labeltext=\thmetiqwarning{##2} 
+                          }      
+                          }%
+              {%
+              \end{Warning}
+              }}

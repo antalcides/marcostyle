@@ -1,0 +1,14 @@
+\DeclareDocumentEnvironment{MyFrame}{O{1cm}O{0.4pt}O{0.8cm}O{black}O{3}O{2ex}}
+  {\par\hfill\rlap{%
+      \bgroup\color{#4}%
+      \hskip-\dimexpr#1-#3\relax\rule{#1}{#2}%
+      \hskip-\dimexpr#1/#5\relax\rule[-\dimexpr#1-\dimexpr#1/#5\relax]{#2}{#1}%
+      \egroup
+    }%
+   \vskip-\dimexpr#1/#5+\dimexpr#1/#5-#6\relax%
+  }
+  {\par\nobreak\offinterlineskip\vskip-\dimexpr#1/#5+\dimexpr#1/#5-#6\relax\noindent%
+      \hskip-#3\bgroup\color{#4}%
+      \rule{#1}{#2}\hskip-\dimexpr#1-\dimexpr#1/#5-#2\relax%
+      \rule[-\dimexpr#1/#5-#2\relax]{#2}{#1}\egroup\par
+  } 
